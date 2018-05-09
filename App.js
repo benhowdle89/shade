@@ -6,7 +6,8 @@ import {
   View,
   TouchableOpacity,
   Slider,
-  Vibration
+  Vibration,
+  Image
 } from "react-native";
 import GalleryScreen from "./GalleryScreen";
 import isIPhoneX from "react-native-is-iphonex";
@@ -19,6 +20,14 @@ const flashModeOrder = {
   auto: "torch",
   torch: "off"
 };
+
+const flashModeImages = {
+  off: require("./assets/003-flash-1.png"),
+  on: require("./assets/004-flash.png"),
+  torch: require("./assets/002-flashlight.png")
+};
+
+const cameraImage = require("./assets/001-photo-camera.png");
 
 const wbOrder = {
   auto: "sunny",
@@ -77,7 +86,8 @@ export default class CameraScreen extends React.Component {
         {
           showBlackout: true
         },
-        () => {
+        async () => {
+          await new Promise(res => setTimeout(res, 100));
           this.camera.takePictureAsync().then(data => {
             FileSystem.moveAsync({
               from: data.uri,
@@ -94,6 +104,38 @@ export default class CameraScreen extends React.Component {
       );
     }
   };
+
+  renderFlashButton(state) {
+    const content =
+      state !== "auto" ? (
+        <Image
+          style={{
+            width: 50,
+            height: 50
+          }}
+          source={flashModeImages[state]}
+        />
+      ) : (
+        <View>
+          <Image
+            style={{
+              width: 50,
+              height: 50,
+              marginBottom: 5
+            }}
+            source={flashModeImages.on}
+          />
+          <Text
+            style={{
+              fontWeight: "bold"
+            }}
+          >
+            AUTO
+          </Text>
+        </View>
+      );
+    return content;
+  }
 
   renderPreview() {
     return <GalleryScreen onCancel={() => this.togglePreview()} />;
@@ -158,14 +200,14 @@ export default class CameraScreen extends React.Component {
             backgroundColor: "transparent",
             flexDirection: "row",
             justifyContent: "space-around",
-            paddingTop: Constants.statusBarHeight / 2
+            paddingTop: Constants.statusBarHeight
           }}
         >
           <TouchableOpacity
-            style={styles.flipButton}
+            style={styles.flashButton}
             onPress={this.toggleFlash.bind(this)}
           >
-            <Text style={styles.flipText}> FLASH: {this.state.flash} </Text>
+            {this.renderFlashButton(this.state.flash)}
           </TouchableOpacity>
         </View>
         <View
@@ -179,10 +221,13 @@ export default class CameraScreen extends React.Component {
           }}
         >
           <TouchableOpacity
-            style={[styles.flipButton, styles.picButton]}
+            style={styles.cameraButton}
             onPress={() => this.takePicture()}
           >
-            <Text style={styles.flipText}> SNAP </Text>
+            <Image
+              style={[{ width: 50, height: 50 }, styles.cameraButtonImage]}
+              source={cameraImage}
+            />
           </TouchableOpacity>
         </View>
       </Camera>
@@ -211,19 +256,22 @@ const styles = StyleSheet.create({
   navigation: {
     flex: 1
   },
-  flipButton: {
+  flashButton: {
     flex: 0.3,
-    height: 40,
-    marginHorizontal: 2,
-    marginBottom: 10,
+    height: 50,
     marginTop: 20,
-    borderRadius: 8,
-    borderColor: "white",
-    borderWidth: 1,
-    padding: 5,
     alignItems: "center",
     justifyContent: "center"
   },
+  cameraButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 40,
+    backgroundColor: "#fff",
+    width: 80,
+    height: 80
+  },
+  cameraButtonImage: {},
   flipText: {
     color: "white",
     fontSize: 15
@@ -236,9 +284,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: "center",
     justifyContent: "center"
-  },
-  picButton: {
-    backgroundColor: "darkseagreen"
   },
   row: {
     flexDirection: "row"

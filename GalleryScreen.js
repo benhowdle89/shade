@@ -52,7 +52,7 @@ export default class GalleryScreen extends React.Component {
         console.error(error);
       }
 
-      alert("Successfully saved photo to your gallery!");
+      alert("Photo saved to your camera roll");
       this.props.onCancel();
     } else {
       alert("No photo to save!");
@@ -64,10 +64,16 @@ export default class GalleryScreen extends React.Component {
       <View style={styles.container}>
         <View style={styles.navbar}>
           <TouchableOpacity style={styles.button} onPress={this.props.onCancel}>
-            <Text>Back</Text>
+            <Image
+              source={require("./assets/error.png")}
+              style={{ width: 25, height: 25 }}
+            />
           </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={this.saveToGallery}>
-            <Text>Save to gallery</Text>
+            <Image
+              source={require("./assets/download-button.png")}
+              style={{ width: 25, height: 25 }}
+            />
           </TouchableOpacity>
         </View>
         <View style={styles.pictures}>
@@ -95,7 +101,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    backgroundColor: "indianred"
+    backgroundColor: "#fff"
   },
   pictures: {
     flex: 1

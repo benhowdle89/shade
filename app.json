@@ -1,27 +1,29 @@
 {
   "expo": {
-    "name": "shade",
-    "description": "This project is really great.",
-    "slug": "shade",
+    "name": "shades",
+    "description":
+      "A camera app that blacks out the screen when you take a selfie - preventing screen reflections from your sunglasses or glasses.",
+    "slug": "shades",
     "privacy": "public",
     "sdkVersion": "27.0.0",
     "platforms": ["ios", "android"],
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/shades-icon.png",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "image": "./assets/shades-splash.png",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "bundleIdentifier": "com.benhowdle89.shades"
+    },
+    "android": {
+      "package": "com.benhowdle89.shades"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
-    }
+    "assetBundlePatterns": ["**/*"]
   }
 }
