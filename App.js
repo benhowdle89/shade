@@ -54,7 +54,6 @@ export default class CameraScreen extends React.Component {
 
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    await Permissions.askAsync(Permissions.SYSTEM_BRIGHTNESS);
     this.setState({
       permissionsGranted: status === "granted"
     });

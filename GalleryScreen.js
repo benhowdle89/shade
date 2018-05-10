@@ -33,6 +33,13 @@ export default class GalleryScreen extends React.Component {
     this._mounted = false;
   }
 
+  dismiss = async () => {
+    await FileSystem.deleteAsync(
+      `${FileSystem.documentDirectory}photos/Photo_1.jpg`
+    );
+    this.props.onCancel();
+  };
+
   saveToGallery = async () => {
     const { photos } = this.state;
 
@@ -53,7 +60,7 @@ export default class GalleryScreen extends React.Component {
       }
 
       alert("Photo saved to your camera roll");
-      this.props.onCancel();
+      this.dismiss();
     } else {
       alert("No photo to save!");
     }
@@ -63,7 +70,7 @@ export default class GalleryScreen extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.navbar}>
-          <TouchableOpacity style={styles.button} onPress={this.props.onCancel}>
+          <TouchableOpacity style={styles.button} onPress={this.dismiss}>
             <Image
               source={require("./assets/error.png")}
               style={{ width: 25, height: 25 }}
