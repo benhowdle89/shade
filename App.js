@@ -86,7 +86,7 @@ export default class CameraScreen extends React.Component {
           showBlackout: true
         },
         async () => {
-          await new Promise(res => setTimeout(res, 100));
+          await new Promise(res => setTimeout(res, 500));
           this.camera.takePictureAsync().then(data => {
             FileSystem.moveAsync({
               from: data.uri,
